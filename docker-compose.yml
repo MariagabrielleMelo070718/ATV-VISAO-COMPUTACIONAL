@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80" # Mapeia a porta 80 do container para a 5173 do seu PC
+    depends_on:
+      - backend
+
+  backend:
+    build: ./detector-area-restrita/backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./detector-area-restrita/backend:/app # Sincroniza o código para facilitar o desenvolvimento
