@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Optional npm cache directory
+.npm
+detector-area-restrict/backend/__pycache__
+detector-area-restrict/backend/venv
