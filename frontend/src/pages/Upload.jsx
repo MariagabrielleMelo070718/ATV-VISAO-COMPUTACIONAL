@@ -20,13 +20,21 @@ function Upload() {
         return () => URL.revokeObjectURL(objectUrl);
     }, [file]);
 
-    function sendImage() {
-        if (!file) {
-            alert("Selecione uma imagem");
-            return;
+    const [loading, setLoading] = useState(false);
+
+    async function sendImage() {
+        if (!file) return;
+        
+        setLoading(true);
+        try {
+            const result = await analyzeImage(file);
+            navigate("/result", { state: { result, preview: preview } });
+        } catch (error) {
+            alert("Erro na análise: " + error.message);
+        } finally {
+            setLoading(false);
         }
-        navigate("/result", { state: { image: file } });
-    }
+}
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
