@@ -1,21 +1,12 @@
 FROM python:3.11-slim
 
-# Instala bibliotecas de sistema essenciais para OpenCV
-RUN apt-get update && apt-get install -y \
-    libgl1 \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
-# Copia e instala as dependências do Python
+# Instala apenas o essencial para o Python
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=100 -r requirements.txt
 
-# Copia o restante do código
 COPY . .
 
-EXPOSE 8000
-
-# Comando para rodar o FastAPI
+# Comando para rodar a aplicação
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

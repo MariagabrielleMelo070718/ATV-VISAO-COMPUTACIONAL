@@ -21,8 +21,12 @@ function Result() {
                    {status}
                 </h2>
 
-                <div className="relative rounded-lg overflow-hidden border-4 border-slate-900 mb-8">
-                    <img src={image} alt="Resultado do Mock" className="w-full h-auto" />
+                <div className="relative rounded-lg overflow-hidden border-4 border-slate-900 mb-8 w-full h-[500px] bg-slate-100 flex items-center justify-center">
+                    <img 
+                        src={image} 
+                        alt="Resultado do Mock" 
+                        className="w-full h-full object-contain" 
+                    />
                 </div>
 
                 <button 

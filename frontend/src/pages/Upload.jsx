@@ -34,40 +34,37 @@ function Upload() {
     }, [file]);
 
     async function sendImage() {
-        if (!file) {
-            alert("Por favor, selecione uma imagem primeiro.");
-            return;
-        }
-
-        setLoading(true);
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            const response = await fetch("http://127.0.0.1:8000/detectar", {
-                method: "POST",
-                body: formData,
-            });
-
-            if (!response.ok) throw new Error("Falha na comunicação com o servidor.");
-
-            const imageBlob = await response.blob();
-            const resultImageURL = URL.createObjectURL(imageBlob);
-            
-            const status = response.headers.get("X-Detection-Status") || "Análise Concluída";
-
-            navigate("/result", { 
-                state: { 
-                    image: resultImageURL, 
-                    status: status 
-                } 
-            });
-        } catch (error) {
-            alert("Erro ao processar: " + error.message);
-        } finally {
-            setLoading(false);
-        }
+    if (!file) {
+        alert("Por favor, selecione uma imagem primeiro.");
+        return;
     }
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/detectar", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) throw new Error("Falha na comunicação com o servidor.");
+
+        const data = await response.json();
+
+        navigate("/result", { 
+            state: { 
+                image: data.image, 
+                status: data.status 
+            } 
+        });
+    } catch (error) {
+        alert("Erro ao processar: " + error.message);
+    } finally {
+        setLoading(false);
+    }
+}
 
     return (
         <div className="relative min-h-screen bg-slate-50 font-sans">
